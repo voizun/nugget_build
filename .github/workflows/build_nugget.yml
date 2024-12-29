@@ -28,12 +28,12 @@ jobs:
           --onefile \
           --follow-imports \
           --include-data-files=files/=./files \
-          --enable-plugin pyside6 \
-          --include-package zeroconf pyimg4 \
-          --include-module zeroconf._utils.ipaddress zeroconf._handlers.answers \
+          --enable-plugin=pyside6 \
+          --include-package=zeroconf,pyimg4 \
+          --include-module=zeroconf._utils.ipaddress,zeroconf._handlers.answers \
           --lto=yes \
-          --include-package-data pyimg4 \
-          --output-filename Nugget \
+          --include-package-data=pyimg4 \
+          --output-filename=Nugget \
           main_app.py
 
       - name: Upx Nugget
