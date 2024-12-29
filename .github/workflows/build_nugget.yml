@@ -26,8 +26,7 @@ jobs:
           python3 -m nuitka \
           --standalone \
           --onefile \
-          --follow-imports \
-          --include-data-files=files/=./files \
+          --include-data-dir=files/=./files \
           --enable-plugin=pyside6 \
           --include-package=zeroconf,pyimg4 \
           --include-module=zeroconf._utils.ipaddress,zeroconf._handlers.answers \
