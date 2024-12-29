@@ -17,23 +17,32 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install upx libimobiledevice6 usbmuxd tree python3-tk 
-          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip nuitka
           pip install -r Nugget/requirements.txt
 
       - name: Build Ubuntu amd64
         run: |
           cd Nugget
-          python3 compile.py
+          python3 -m nuitka \
+          --standalone \
+          --onefile \
+          --follow-imports \
+          --include-data-files=files/=./files \
+          --enable-plugin pyside6 \
+          --include-package zeroconf pyimg4 \
+          --include-module zeroconf._utils.ipaddress zeroconf._handlers.answers \
+          --lto=yes \
+          --include-package-data pyimg4 \
+          --output-filename Nugget \
+          main_app.py
 
-      - name: Zip Nugget
+      - name: Upx Nugget
         run: |
-          cd Nugget/dist
-          tree
-          ls -al
+          cd Nugget/
           upx --lzma Nugget
 
       - name: Upload Binary
         uses: actions/upload-artifact@v4
         with:
           name: Nugget_Ubuntu_amd64
-          path: dist/Nugget
+          path: Nugget/Nugget
