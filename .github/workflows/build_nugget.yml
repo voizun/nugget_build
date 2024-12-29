@@ -10,19 +10,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
-
       - name: Clone Nugget repository
         run: git clone https://github.com/leminlimez/Nugget.git
 
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get -y upgrade
-          sudo apt-get install upx
+          sudo apt-get install upx libimobiledevice6 usbmuxd tree
           python3 -m pip install --upgrade pip
           pip install -r Nugget/requirements.txt
 
@@ -34,6 +28,8 @@ jobs:
       - name: Zip Nugget
         run: |
           cd Nugget/dist
+          tree
+          ls -al
           upx --lzma Nugget
 
       - name: Upload Binary
