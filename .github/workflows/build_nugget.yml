@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install upx libimobiledevice6 usbmuxd tree
+          sudo apt-get install upx libimobiledevice6 usbmuxd tree python3-tk 
           python3 -m pip install --upgrade pip
           pip install -r Nugget/requirements.txt
 
