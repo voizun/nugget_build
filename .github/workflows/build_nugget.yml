@@ -35,11 +35,6 @@ jobs:
           --output-filename=Nugget \
           main_app.py
 
-      - name: Upx Nugget
-        run: |
-          cd Nugget/
-          upx --lzma Nugget
-
       - name: Upload Binary
         uses: actions/upload-artifact@v4
         with:
