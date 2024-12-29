@@ -1,0 +1,43 @@
+name: Build Nugget
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-macos-intel:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Clone Nugget repository
+        run: git clone https://github.com/leminlimez/Nugget.git
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y upgrade
+          sudo apt-get install upx
+          python3 -m pip install --upgrade pip
+          pip install -r Nugget/requirements.txt
+
+      - name: Build Ubuntu amd64
+        run: |
+          cd Nugget
+          python3 compile.py
+
+      - name: Zip Nugget
+        run: |
+          cd Nugget/dist
+          upx --lzma Nugget
+
+      - name: Upload Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nugget_Ubuntu_amd64
+          path: dist/Nugget
